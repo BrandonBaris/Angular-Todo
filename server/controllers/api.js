@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var Todo = require('../models/todo');
+var ObjectId = require("mongoose").Types.ObjectId;
 
 //list all todos
-router.get('/', function ( req,res ){
-  Todo.find(function ( err,todos ){
+router.get('/', function (req,res){
+  Todo.find(function (err,todos){
     if (err) throw err;
     res.json( todos );
   });
@@ -20,37 +21,38 @@ router.post('/', function (req,res){
 });
 
 //delete todo 
-router.delete('/:id', function (req,res){
-  Todo.remove( req.params.id , function (err, todo){
-    if(err) throw err;
-    res.json( todo ); // this is the todo that was removed
-  });
+router.delete('/:id', function (req, res) {
+  Todo.findById(req.params.id)
+    .remove()
+    .exec(function (err, num_deleted, status) {
+      if(err) throw err;
+      res.json( status ); // status object
+    });
 });
 
 //complete todo
 router.put('/:id/complete', function (req,res){
-  console.log(req.params.id);
-  Todo.update( req.params.id , 
+  Todo.update({_id : req.params.id}, 
   {
     $set : {
       completed : true
     }
-  }, function (err, todo){
+  }, function (err, update_count, result){
     if(err) throw err;
-    res.json( todo ); // this is the todo that was updated
+    res.json( result ); // this is the todo that was updated
   });
 });
 
 //incomplete todo
 router.put('/:id/incomplete', function (req,res){
-  Todo.update( req.params.id , 
+  Todo.update({_id : req.params.id}, 
   {
     $set : {
       completed : false
     }
-  }, function (err, todo){
+  }, function (err, update_count, result){
     if(err) throw err;
-    res.json( todo ); // this is the todo that was updated
+    res.json( result ); // this is the todo that was updated
   });
 });
 
