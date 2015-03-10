@@ -7,4 +7,10 @@ angular
       return $http.get('/api'); // return promise
 
     };
+
+    this.create = function ( todo ){
+      //returns a promise
+      return $http.post('/api', todo);
+    };
+
   }]);
