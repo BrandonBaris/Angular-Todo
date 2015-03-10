@@ -2,8 +2,12 @@ angular
   .module('TodoApp',[])
 
   //dependency injection
-  .controller('TodoController', ['$scope', function($scope){
-    $scope.todos = [];
+  .controller('TodoController', ['$scope', 'TodoService', function($scope,TodoService){
+    
+    //TodoService.list() returns a promise
+    TodoService.list().then(function(response){
+      $scope.todos = response.data; 
+    });
 
     $scope.save_todo = function( new_title ){
       $scope.todos.push({

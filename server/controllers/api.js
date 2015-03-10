@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Todo = require('../models/todo');
-var ObjectId = require("mongoose").Types.ObjectId;
+// var ObjectId = require("mongoose").Types.ObjectId;
 
 //list all todos
 router.get('/', function (req,res){
