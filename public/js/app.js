@@ -24,4 +24,13 @@ angular
         $scope.save_todo( $scope.new_todo );
       }
     };
+
+    $scope.check_changed = function ( $event, todo_id ){
+      if ($event.srcElement.checked){
+        TodoService.completed(todo_id);
+      } else {
+        TodoService.incomplete(todo_id);
+      }
+    };
+
   }]);
